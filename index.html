@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>2settle &middot; Spend crypto like cash</title>
+<meta name="description" content="2settle is the easiest way to spend your crypto like everyday cash. Join the waitlist for early access.">
+<meta name="theme-color" content="#4472C4">
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="2settle &middot; Spend crypto like cash">
+<meta property="og:description" content="No conversions, no friction. Just tap and pay. Join the 2settle waitlist for early access.">
+<meta property="og:image" content="2settle-icon.png">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" type="image/png" href="2settle-icon.png">
+<link rel="apple-touch-icon" href="2settle-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --brand:#4472C4;
+    --brand-600:#3a63ac;
+    --brand-700:#2f5296;
+    --brand-50:#eef3fc;
+    --ink:#0f1b33;
+    --ink-soft:#48566f;
+    --line:#e6ebf5;
+    --white:#ffffff;
+    --radius:20px;
+    --shadow:0 20px 60px -20px rgba(38,68,130,.35);
+    --shadow-sm:0 6px 20px -8px rgba(38,68,130,.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--ink);
+    background:radial-gradient(1200px 700px at 12% -10%, #dbe6fb 0%, rgba(219,230,251,0) 55%),
+               radial-gradient(1000px 600px at 100% 0%, #e9eefc 0%, rgba(233,238,252,0) 50%),
+               linear-gradient(180deg,#f6f8fe 0%, #eef2fb 100%);
+    min-height:100%;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* floating soft blobs */
+  .blob{position:fixed;border-radius:50%;filter:blur(60px);opacity:.5;z-index:0;pointer-events:none}
+  .blob.a{width:420px;height:420px;background:#bcd0f7;top:-140px;right:-120px;animation:float1 16s ease-in-out infinite}
+  .blob.b{width:360px;height:360px;background:#cdd9f7;bottom:-160px;left:-120px;animation:float2 20s ease-in-out infinite}
+  @keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,30px)}}
+  @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-24px)}}
+
+  .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:28px 22px 60px;
+        min-height:100%;display:flex;flex-direction:column}
+
+  header.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .logo{height:40px;width:auto;display:block}
+  .nav-pill{font-size:13px;font-weight:600;color:var(--brand-700);background:var(--white);
+            border:1px solid var(--line);padding:8px 14px;border-radius:999px;box-shadow:var(--shadow-sm)}
+
+  main{flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;margin-top:36px}
+
+  /* hero copy */
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;
+           letter-spacing:.02em;color:var(--brand-700);background:var(--brand-50);
+           border:1px solid #dbe4f6;padding:7px 13px;border-radius:999px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+  h1{font-size:clamp(34px,5vw,52px);line-height:1.05;font-weight:800;letter-spacing:-.02em;margin:20px 0 0}
+  h1 .grad{background:linear-gradient(90deg,var(--brand) 0%, #6f9bec 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:clamp(16px,2.1vw,19px);color:var(--ink-soft);margin-top:18px;max-width:34ch;line-height:1.55}
+
+  .features{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .chip{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:600;color:var(--ink);
+        background:var(--white);border:1px solid var(--line);padding:10px 14px;border-radius:12px;box-shadow:var(--shadow-sm)}
+  .chip svg{width:18px;height:18px;color:var(--brand)}
+
+  .proof{display:flex;align-items:center;gap:12px;margin-top:26px}
+  .avatars{display:flex}
+  .avatars span{width:32px;height:32px;border-radius:50%;border:2px solid #fff;margin-left:-9px;
+                background:linear-gradient(135deg,#8fb0ee,#4472C4);display:inline-block}
+  .avatars span:first-child{margin-left:0}
+  .proof p{font-size:13.5px;color:var(--ink-soft)}
+  .proof b{color:var(--ink)}
+
+  /* form card */
+  .card{background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.9);
+        border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 28px}
+  .card h2{font-size:22px;font-weight:800;letter-spacing:-.01em}
+  .card .lead{font-size:14.5px;color:var(--ink-soft);margin-top:6px;line-height:1.5}
+
+  form{margin-top:20px;display:flex;flex-direction:column;gap:14px}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:7px}
+  .field .req{color:var(--brand)}
+  .input{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--line);
+         border-radius:12px;padding:0 14px;transition:border-color .15s, box-shadow .15s}
+  .input:focus-within{border-color:var(--brand);box-shadow:0 0 0 4px rgba(68,114,196,.14)}
+  .input svg{width:18px;height:18px;color:#9aa8c2;flex:none}
+  .input input{border:0;outline:0;background:transparent;font:inherit;font-size:15px;color:var(--ink);
+               width:100%;padding:13px 0}
+  .input input::placeholder{color:#a7b2c7}
+  .hint{font-size:12px;color:#8b97ad;margin-top:6px}
+
+  /* honeypot */
+  .hp{position:absolute;left:-9999px;top:-9999px}
+
+  button.cta{margin-top:6px;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;color:#fff;
+             background:linear-gradient(180deg,#4f7fd0,var(--brand));border-radius:12px;padding:15px 18px;
+             box-shadow:0 12px 24px -10px rgba(68,114,196,.7);transition:transform .12s, box-shadow .12s, opacity .12s}
+  button.cta:hover{transform:translateY(-1px);box-shadow:0 16px 30px -10px rgba(68,114,196,.75)}
+  button.cta:active{transform:translateY(0)}
+  button.cta[disabled]{opacity:.65;cursor:not-allowed;transform:none}
+  .spin{display:none;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.5);border-top-color:#fff;
+        border-radius:50%;animation:sp .7s linear infinite;vertical-align:-4px;margin-right:8px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  body.loading .spin{display:inline-block}
+
+  .msg{font-size:13.5px;border-radius:10px;padding:11px 13px;margin-top:4px;display:none;line-height:1.45}
+  .msg.err{display:block;background:#fdeceb;border:1px solid #f6cfcb;color:#b23b32}
+  .msg.info{display:block;background:var(--brand-50);border:1px solid #d7e2f6;color:var(--brand-700)}
+
+  .foot-note{font-size:12px;color:#94a0b6;margin-top:14px;text-align:center;line-height:1.5}
+
+  /* success state */
+  .success{display:none;text-align:center;padding:14px 6px 6px}
+  body.done .form-view{display:none}
+  body.done .success{display:block}
+  .check{width:74px;height:74px;border-radius:50%;margin:4px auto 6px;
+          background:linear-gradient(135deg,#43c47b,#2ea36a);display:grid;place-items:center;
+          box-shadow:0 14px 30px -10px rgba(46,163,106,.6);animation:pop .45s cubic-bezier(.2,.9,.3,1.4)}
+  @keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+  .check svg{width:38px;height:38px;color:#fff}
+  .success h2{font-size:23px;font-weight:800;margin-top:8px}
+  .success p{color:var(--ink-soft);font-size:15px;margin-top:10px;line-height:1.55}
+  .success .pill{margin-top:18px;display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:600;
+                 color:var(--brand-700);background:var(--brand-50);border:1px solid #d7e2f6;padding:9px 14px;border-radius:999px}
+
+  footer{margin-top:40px;text-align:center;font-size:12.5px;color:#94a0b6}
+  footer a{color:var(--brand-700);text-decoration:none;font-weight:600}
+
+  @media (max-width:880px){
+    main{grid-template-columns:1fr;gap:30px;margin-top:26px}
+    .sub{max-width:none}
+    .hero{text-align:left}
+    .card{order:2}
+  }
+  @media (max-width:520px){
+    .wrap{padding:22px 16px 44px}
+    .nav-pill{display:none}
+    .card{padding:24px 20px}
+  }
+</style>
+</head>
+<body>
+  <div class="blob a"></div>
+  <div class="blob b"></div>
+
+  <div class="wrap">
+    <header class="nav">
+      <img class="logo" src="data:image/png;base64,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" alt="2settle">
+      <span class="nav-pill">Early access &middot; 2026</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow"><span class="dot"></span> Now onboarding early users</span>
+        <h1>Spend your crypto <span class="grad">like everyday cash.</span></h1>
+        <p class="sub">2settle turns your digital assets into instant spending power. No conversions, no friction. Just tap and pay.</p>
+
+        <div class="features">
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+            Instant settlement
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>
+            Tap to pay anywhere
+          </span>
+          <span class="chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/></svg>
+            Bank grade security
+          </span>
+        </div>
+
+        <div class="proof">
+          <div class="avatars"><span></span><span></span><span></span><span></span></div>
+          <p><b>Join the early list.</b> Be first in line when we launch.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="form-view">
+          <h2>Get early access</h2>
+          <p class="lead">Reserve your spot on the 2settle waitlist. We will reach out the moment your access opens up.</p>
+
+          <form id="waitlist" novalidate>
+            <div class="field">
+              <label for="fname">First name <span class="req">*</span></label>
+              <div class="input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                <input id="fname" name="FNAME" type="text" autocomplete="given-name" placeholder="Alex" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email address <span class="req">*</span></label>
+              <div class="input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg>
+                <input id="email" name="EMAIL" type="email" autocomplete="email" placeholder="you@email.com" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone number <span class="req">*</span></label>
+              <div class="input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>
+                <input id="phone" name="MMERGE2" type="tel" autocomplete="tel" placeholder="+234 801 234 56789" required>
+              </div>
+              <p class="hint">Include your country code so we can reach you.</p>
+            </div>
+
+            <!-- honeypot: leave empty -->
+            <div class="hp" aria-hidden="true">
+              <input type="text" name="b_63442fccc9b6460df8eb26877_a16978d3fb" tabindex="-1" value="" autocomplete="off">
+            </div>
+
+            <div id="msg" class="msg"></div>
+
+            <button class="cta" type="submit"><span class="spin"></span><span class="btn-label">Join the waitlist</span></button>
+            <p class="foot-note">We respect your inbox. No spam, just launch updates. Unsubscribe anytime.</p>
+          </form>
+        </div>
+
+        <div class="success" aria-live="polite">
+          <div class="check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <h2>You're on the list! 🎉</h2>
+          <p id="success-copy">Welcome aboard. Check your inbox for a confirmation from the 2settle team. Your early access is on the way.</p>
+          <span class="pill">Confirmation email sent</span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      &copy; <span id="yr"></span> 2settle. Spend crypto like cash. &middot; <a href="mailto:2settlehq@gmail.com">Contact us</a>
+    </footer>
+  </div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  var MC_URL = 'https://2settle.us22.list-manage.com/subscribe/post-json?u=63442fccc9b6460df8eb26877&id=a16978d3fb&f_id=00a3c2e1f0';
+  var form = document.getElementById('waitlist');
+  var msg  = document.getElementById('msg');
+
+  function showMsg(text, kind){
+    msg.className = 'msg ' + (kind || 'err');
+    msg.innerHTML = text;
+  }
+  function clearMsg(){ msg.className = 'msg'; msg.textContent = ''; }
+  function stripTags(s){ var d=document.createElement('div'); d.innerHTML=s; return (d.textContent||'').trim(); }
+
+  function jsonp(url, cb){
+    var name = 'mc_cb_' + Math.floor(Math.random()*1e9);
+    var s = document.createElement('script');
+    var done = false;
+    window[name] = function(data){ done = true; cb(data); cleanup(); };
+    function cleanup(){ try{ delete window[name]; }catch(e){ window[name]=undefined; } if(s.parentNode) s.parentNode.removeChild(s); }
+    s.onerror = function(){ if(!done){ cb({result:'error', msg:'Network error. Please try again.'}); cleanup(); } };
+    s.src = url + '&c=' + name;
+    document.body.appendChild(s);
+    setTimeout(function(){ if(!done){ cb({result:'error', msg:'Request timed out. Please try again.'}); cleanup(); } }, 12000);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearMsg();
+
+    var fname = document.getElementById('fname').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var hp    = form['b_63442fccc9b6460df8eb26877_a16978d3fb'].value;
+
+    if(!fname){ return showMsg('Please enter your first name.'); }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ return showMsg('Please enter a valid email address.'); }
+    var digits = phone.replace(/[^\d]/g,'');
+    if(digits.length < 7){ return showMsg('Please enter a valid phone number with country code.'); }
+    if(hp){ return; } /* bot */
+
+    document.body.classList.add('loading');
+    var btn = form.querySelector('button.cta');
+    btn.setAttribute('disabled','disabled');
+    form.querySelector('.btn-label').textContent = 'Joining...';
+
+    var url = MC_URL
+      + '&EMAIL='  + encodeURIComponent(email)
+      + '&FNAME='  + encodeURIComponent(fname)
+      + '&MMERGE2=' + encodeURIComponent(phone)
+      + '&b_63442fccc9b6460df8eb26877_a16978d3fb=';
+
+    jsonp(url, function(data){
+      document.body.classList.remove('loading');
+      btn.removeAttribute('disabled');
+      form.querySelector('.btn-label').textContent = 'Join the waitlist';
+
+      if(data && data.result === 'success'){
+        document.body.classList.add('done');
+        window.scrollTo({top:0, behavior:'smooth'});
+        return;
+      }
+      var raw = data && data.msg ? stripTags(data.msg) : 'Something went wrong. Please try again.';
+      if(/already subscribed/i.test(raw)){
+        showMsg("You're already on the list. We'll be in touch soon!", 'info');
+      } else {
+        // Mailchimp often prefixes with a code like "0 - "
+        showMsg(raw.replace(/^\d+\s*-\s*/, ''), 'err');
+      }
+    });
+  });
+</script>
+</body>
+</html>
