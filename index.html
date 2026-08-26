@@ -240,8 +240,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
           </div>
           <h2>You're on the list! 🎉</h2>
-          <p id="success-copy">Welcome aboard. Check your inbox for a confirmation from the 2settle team. Your early access is on the way.</p>
-          <span class="pill">Confirmation email sent</span>
+          <p id="success-copy">Welcome aboard. Your details have been saved and the 2settle team will be in touch.</p>
+          <span class="pill">Details received</span>
         </div>
       </section>
     </main>
@@ -254,7 +254,7 @@
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  var MC_URL = 'https://2settle.us22.list-manage.com/subscribe/post-json?u=63442fccc9b6460df8eb26877&id=a16978d3fb&f_id=00a3c2e1f0';
+  var GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz4I5F1e6dmBdImqNzrnlv9-tq_d373Cs-j0H6bVdUmEyh3pS52dl4ApPepsKHCVTlzBg/exec';
   var form = document.getElementById('waitlist');
   var msg  = document.getElementById('msg');
 
@@ -263,19 +263,6 @@
     msg.innerHTML = text;
   }
   function clearMsg(){ msg.className = 'msg'; msg.textContent = ''; }
-  function stripTags(s){ var d=document.createElement('div'); d.innerHTML=s; return (d.textContent||'').trim(); }
-
-  function jsonp(url, cb){
-    var name = 'mc_cb_' + Math.floor(Math.random()*1e9);
-    var s = document.createElement('script');
-    var done = false;
-    window[name] = function(data){ done = true; cb(data); cleanup(); };
-    function cleanup(){ try{ delete window[name]; }catch(e){ window[name]=undefined; } if(s.parentNode) s.parentNode.removeChild(s); }
-    s.onerror = function(){ if(!done){ cb({result:'error', msg:'Network error. Please try again.'}); cleanup(); } };
-    s.src = url + '&c=' + name;
-    document.body.appendChild(s);
-    setTimeout(function(){ if(!done){ cb({result:'error', msg:'Request timed out. Please try again.'}); cleanup(); } }, 12000);
-  }
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
@@ -291,35 +278,37 @@
     var digits = phone.replace(/[^\d]/g,'');
     if(digits.length < 7){ return showMsg('Please enter a valid phone number with country code.'); }
     if(hp){ return; } /* bot */
+    if(!GOOGLE_SHEET_WEB_APP_URL){
+      return showMsg('This form is not connected yet. Add your Google Apps Script Web App URL in index.html.');
+    }
 
     document.body.classList.add('loading');
     var btn = form.querySelector('button.cta');
     btn.setAttribute('disabled','disabled');
     form.querySelector('.btn-label').textContent = 'Joining...';
 
-    var url = MC_URL
-      + '&EMAIL='  + encodeURIComponent(email)
-      + '&FNAME='  + encodeURIComponent(fname)
-      + '&MMERGE2=' + encodeURIComponent(phone)
-      + '&b_63442fccc9b6460df8eb26877_a16978d3fb=';
+    var payload = new URLSearchParams();
+    payload.append('firstName', fname);
+    payload.append('email', email);
+    payload.append('phone', phone);
+    payload.append('source', window.location.href);
 
-    jsonp(url, function(data){
+    fetch(GOOGLE_SHEET_WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+      body: payload.toString()
+    }).then(function(){
       document.body.classList.remove('loading');
       btn.removeAttribute('disabled');
       form.querySelector('.btn-label').textContent = 'Join the waitlist';
-
-      if(data && data.result === 'success'){
-        document.body.classList.add('done');
-        window.scrollTo({top:0, behavior:'smooth'});
-        return;
-      }
-      var raw = data && data.msg ? stripTags(data.msg) : 'Something went wrong. Please try again.';
-      if(/already subscribed/i.test(raw)){
-        showMsg("You're already on the list. We'll be in touch soon!", 'info');
-      } else {
-        // Mailchimp often prefixes with a code like "0 - "
-        showMsg(raw.replace(/^\d+\s*-\s*/, ''), 'err');
-      }
+      document.body.classList.add('done');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }).catch(function(){
+      document.body.classList.remove('loading');
+      btn.removeAttribute('disabled');
+      form.querySelector('.btn-label').textContent = 'Join the waitlist';
+      showMsg('Network error. Please try again.');
     });
   });
 </script>
